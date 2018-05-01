@@ -1,0 +1,50 @@
+<ion-menu persistent="true" [content]="content">
+ <ion-header>
+    <ion-toolbar>
+      <ion-title>City Management</ion-title>
+      <ion-buttons end>
+<button (click)="showButton()">
+  <ion-icon name ="create"></ion-icon>&nbsp; Edit
+</button>
+
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class = "menu-content">
+    <ion-list *ngFor="let p of pages">
+      <button ion-item menuClose (click)="openPage(p)" class="cityName">
+      <ion-avatar item-left>
+        <img src="{{ p.icon }}">
+      </ion-avatar>
+      {{ p.current.name }}
+      <ion-badge item-end>{{ p.current.main.temp}} &deg;</ion-badge>
+      <button item-end *ngIf="hideDelete &&  loc != p.current.name" (click) = "removeCity(p)" class = "delTrash">
+        <ion-icon name = "trash"></ion-icon>
+      </button>
+
+    </button>
+    </ion-list>
+
+<button ion-button menuClose full (click)="searchPage()" class="addBtn">
+  <ion-icon name="add"></ion-icon>&nbsp;Add City
+</button>
+
+<ion-list *ngFor="let unit of weatherUnits">
+  <button ion-item (click) = "unit.show()" class="units">  
+    <ion-icon name= "{{ unit.icon }}" class="icon_unit" item-left></ion-icon>
+    {{ unit.title}}
+ <ion-badge item-end>{{unit.unit}}</ion-badge>
+  </button>
+
+
+</ion-list>
+</ion-content>
+
+</ion-menu>
+
+
+
+
+<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav> 
