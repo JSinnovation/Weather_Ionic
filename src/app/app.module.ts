@@ -8,7 +8,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { WeatherProvider } from '../providers/weather/weather';
 import { IonicStorageModule } from '@ionic/storage';
-
+import { InAppBrowser} from '@ionic-native/in-app-browser';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,8 @@ import { IonicStorageModule } from '@ionic/storage';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     Geolocation,
-    WeatherProvider
+    WeatherProvider,
+    InAppBrowser
   ]
 })
 export class AppModule {}

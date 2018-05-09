@@ -1,7 +1,9 @@
+import { InAppBrowser , InAppBrowserOptions } from '@ionic-native/in-app-browser';
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams,Slides } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import  moment from 'moment';
+
 
 @IonicPage()
 @Component({
@@ -21,12 +23,16 @@ export class HomePage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     private storage: Storage,
+    private inApp: InAppBrowser
   ) { 
     this.locationInfo = this.navParams.get("weatherInfo");
     if(this.locationInfo) {
-     this.bgImage = this.BgImage();
+     this.bgImage = this.BgImage(this.locationInfo.current.weather[0].main);
    
     }
+    this.storage.forEach((value, key, index) => {
+      this.Slides.push(JSON.parse(value));
+    })
   }
 
   ionViewDidLoad() {
@@ -37,6 +43,14 @@ export class HomePage {
       
     }
   }
+slideChanged() {
+let index = this.slide.getActiveIndex();
+let name = this.Slides[index].current.name;
+this.cityName = name;
+
+this.bgImage = this.BgImage(this.Slides[index].current.weather[0].main);
+}
+
 GetDay = function(time: number) {
   let day = new Date(time*1000).toISOString();
   let d = new Date(day);
@@ -95,22 +109,33 @@ windDirection = (deg) => {
   }
 
 }
-BgImage = () => {
-  this.locationInfo = this.navParams.get("weatherInfo");
-  if(this.locationInfo.current.weather[0].main =="Rain"){
+BgImage = (val) => {
+  //this.locationInfo = this.navParams.get("weatherInfo");
+  if(val =="Rain"){
     return './assets/imgs/rain.jpg';
-  } else if(this.locationInfo.current.weather[0].main =="Clear"){
+  } else if(val =="Clear"){
     return './assets/imgs/clear.jpg';
-  } else if(this.locationInfo.current.weather[0].main =="Clouds"){
+  } else if(val =="Clouds"){
     return './assets/imgs/clouds.jpg';
-  } else if(this.locationInfo.current.weather[0].main =="Drizzle"){
+  } else if(val =="Drizzle"){
   return './assets/imgs/drizzle.jpg';
-  } else if(this.locationInfo.current.weather[0].main =="Snow"){
+  } else if(val =="Snow"){
   return './assets/imgs/snow.jpg';
-  } else if(this.locationInfo.current.weather[0].main =="Thunder"){
+  } else if(val =="ThunderStorm"){
   return './assets/imgs/thunder.jpg';
   } else {
   return './assets/imgs/clear.jpg';
 }
 }
+openLink(url){
+const options: InAppBrowserOptions = {
+  zoom: 'no',
+  location:'yes'
+
+}
+
+this.inApp.create(url, '_self', options);
+
+}
+
 }

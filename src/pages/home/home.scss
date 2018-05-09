@@ -100,9 +100,13 @@ ion-content{
 
 ion-footer {
     background-color: transparent !important;
+
+   // button {
+     //   background-color: transparent !important;
+  //  }
 }
 
-// .swiper-pagination {
-//     top: 0 !important;
-// }
-
+.swiper-pagination {
+   top: 0 !important;
+ }
+ 
